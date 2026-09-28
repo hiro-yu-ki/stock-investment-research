@@ -4,7 +4,7 @@
 
 ## 画面デザイン
 
-日本語の明朝見出し、余白、罫線で組んだ編集ページとして再設計しました。生成した独自の挿絵は `src/assets/ledger-city.webp` に保存しています。参照した実際の企業サイト、イラストレーターのクレジット、採用した要素は [デザイン調査](docs/design-research.md) に記録しています。
+日本語の明朝見出し、余白、罫線で組んだ編集ページとして再設計しました。生成した独自の挿絵は `src/assets/ledger-city.webp` に保存しています。参照した実際の企業サイト、イラストレーターのクレジット、採用した要素は デザイン調査 に記録しています。
 
 日本株の手元の日足 CSV をブラウザ内で監査・検索し、過去リターンを表示する Sites 用アプリです。2026-09-28 現在、合法的に再配信できる直近日本株データを無料で確保できていないため、自動の「いま買い」候補、将来価格、的中率は表示しません。画面にデータは埋め込まず、アップロードもサーバーに保存しません。
 
@@ -20,7 +20,7 @@
 
 確認日：2026-09-28。公式資料：[J-Quants データ期間](https://jpx-jquants.com/ja/spec/data-spec)、[利用規約](https://jpx-jquants.com/ja/termsofservice)、[API 制限](https://jpx-jquants.com/ja/spec/rate-limits)、[Alpha Vantage 仕様](https://www.alphavantage.co/documentation/)、[料金・無料枠](https://www.alphavantage.co/premium/)、[EDINET](https://disclosure2.edinet-fsa.go.jp/WEEK0020.aspx)、[SEC API](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)。
 
-予測・バックテスト・較正・区間に関する一次資料20件の予備調査は [`docs/research.md`](docs/research.md) を参照してください。
+予測・バックテスト・較正・区間に関する一次資料20件の予備調査は `docs/research.md` を参照してください。
 
 ## 起動・ビルド
 
