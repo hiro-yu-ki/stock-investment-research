@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f2eee6">
+  <title>株式検証室｜数字を確かめる</title>
+  <meta name="description" content="日本株のデータを読み込み、日付・品質・過去の値動きを確かめるための検証室。">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="masthead">
+      <a class="wordmark" href="#overview" aria-label="株式検証室 トップ">株式<span>検証室</span><small>日本株の数字を読む</small></a>
+      <nav class="main-nav" aria-label="主なページ">
+        <a href="#overview" class="nav-item active" data-nav="overview">はじめに</a>
+        <a href="#stocks" class="nav-item" data-nav="stocks">銘柄を調べる</a>
+        <a href="#validation" class="nav-item" data-nav="validation">検証結果</a>
+        <a href="#sources" class="nav-item" data-nav="sources">データと方法</a>
+      </nav>
+      <a class="header-action" href="#upload">CSVを読み込む <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section id="overview" class="page active">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="kicker"><span class="red-square"></span> 調査ノート <span class="kicker-separator">／</span> <time id="todayLabel"></time></div>
+            <h1>株価を読む。<br>その前に、<em>確かめる。</em></h1>
+            <p class="hero-lead">日付、価格の補正、データの出所。ひとつずつ確認してから、銘柄の過去を見ていきます。</p>
+            <a class="text-link" href="#method">このサイトでできること <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="hero-art"><img src="./assets/ledger-city.webp" alt="長い株価台帳が街並みへとつながる、手描きの挿絵" width="1536" height="1024"><figcaption>ORIGINAL ILLUSTRATION</figcaption></figure>
+        </div>
+        <div class="content-width">
+          <section class="verdict" aria-labelledby="verdict-heading">
+            <div class="section-no">01 / 現在の判断</div>
+            <div class="verdict-body"><h2 id="verdict-heading">買い候補の公開を保留しています。</h2><p>直近の日本株データを、公開サイトで再配信できる条件では確保できていません。手元のデータで履歴を調べることはできますが、利用権限と価格補正を確認するまでは推奨を出しません。</p></div>
+          </section>
+          <section class="data-section" aria-labelledby="data-heading">
+            <div class="section-head"><div><span class="section-no">02 / 読み込んだデータ</span><h2 id="data-heading">現在のデータ</h2></div><p>このブラウザ内で処理します。ファイルはサーバーへ送信しません。</p></div>
+            <div class="metrics">
+              <div class="metric"><span>銘柄数</span><strong id="stockCount">0</strong><small>読み込み済み</small></div>
+              <div class="metric"><span>株価の行数</span><strong id="rowCount">0</strong><small>有効な日付と価格</small></div>
+              <div class="metric"><span>最終データ日</span><strong id="lastDate">—</strong><small id="freshness">未取得</small></div>
+              <div class="metric"><span>時間外検証</span><strong id="validationState">未実施</strong><small>実データでの評価</small></div>
+            </div>
+          </section>
+          <section id="upload" class="upload-section" aria-labelledby="upload-heading">
+            <div class="upload-title"><span class="section-no">03 / データを入れる</span><h2 id="upload-heading">手元のCSVから、<br>調査を始める。</h2></div>
+            <div class="upload-body"><p>利用権限のある日本株の日足CSVを選んでください。日付と価格の不備を確認し、銘柄別に過去の値動きを表示します。</p><label class="button primary" for="csvFile">CSVを選択する <span aria-hidden="true">↗</span></label><input id="csvFile" type="file" accept=".csv,text/csv"><p class="file-note">必須列：date, code, close　／　任意：name, volume, adjusted_close<br>UTF-8、最大10MB・100,000行</p></div>
+          </section>
+          <div id="auditMessage" class="message" role="status">CSVの読み込み結果は、ここに表示します。</div>
+          <section id="method" class="method-section" aria-labelledby="method-heading"><div class="section-head"><div><span class="section-no">04 / 調べ方</span><h2 id="method-heading">判断までの順序</h2></div></div><div class="steps"><div class="step"><b>一</b><h3>まず、データを点検する</h3><p>日付、重複、欠損、価格の異常を確認します。</p></div><div class="step"><b>二</b><h3>次に、履歴を見る</h3><p>1・3・6・12か月の実績と、観測期間の不足を表示します。</p></div><div class="step"><b>三</b><h3>最後に、期間を分けて検証する</h3><p>過去で学習し、その後の期間で確かめた結果を比較します。</p></div></div></section>
+        </div>
+      </section>
+      <section id="stocks" class="page interior-page"><div class="content-width"><div class="page-heading"><span class="section-no">銘柄を調べる / 01</span><h1>過去の値動きを、<br>日付と一緒に。</h1><p>読み込んだ銘柄の範囲で検索します。表示する数値は実績であり、将来価格ではありません。</p></div><div class="toolbar"><label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="銘柄名またはコード" aria-label="銘柄を検索"></label><span id="resultCount">0 件</span></div><div class="explorer"><div class="list-panel"><div class="list-head"><span>銘柄</span><span>最終日</span></div><div id="stockList" class="stock-list empty-list">CSVを読み込んでください。</div></div><div id="detail" class="detail-panel empty-detail"><span class="empty-index">DATA / 00</span><h2>銘柄を選択</h2><p>履歴、期間別の騰落、データの弱点を表示します。</p></div></div></div></section>
+      <section id="validation" class="page interior-page"><div class="content-width"><div class="page-heading"><span class="section-no">検証結果 / 02</span><h1>結果は、まだ<br>出ていません。</h1><p>過去の値動きと、将来を予測する力は分けて評価します。</p></div><div class="validation-intro"><div class="validation-mark">未検証</div><div><h2>実データの時間外検証は未実施です。</h2><p>このサイトには検証済みの数値を組み込んでいません。ローカルスクリプトが出力したJSONを読み込むと、学習期間と最終評価期間、手法別の誤差を確認できます。</p><label class="button secondary" for="resultFile">検証JSONを読み込む <span aria-hidden="true">↗</span></label><input id="resultFile" type="file" accept=".json,application/json"></div></div><div class="validation-columns"><div><span class="section-no">採用の条件</span><h2>確かめるべきこと</h2><ol class="check-list"><li>予測時点で使える情報だけを使う</li><li>学習・選定・最終評価を分ける</li><li>同じ銘柄の重複したサンプルを除く</li><li>取引コストを差し引き、単純な基準と比べる</li><li>急落期と銘柄の偏りを調べる</li></ol></div><div><span class="section-no">読み方</span><h2>数字の前提も見る</h2><p>評価期間と件数を確認したうえで誤差を読んでください。付属スクリプトには取引コストの計上がありません。JSONを読み込んでも、データの権利や補正方法をこのサイトだけで確認できないため、買い候補には転用しません。</p></div></div><div id="validationResult" class="validation-result"></div></div></section>
+      <section id="sources" class="page interior-page"><div class="content-width"><div class="page-heading"><span class="section-no">データと方法 / 03</span><h1>数字の出所を、<br>隠さない。</h1><p>何を使い、どこに限界があるかを記録します。</p></div><div class="source-table-wrap"><table><thead><tr><th>情報源</th><th>確認した条件</th><th>このサイトでの扱い</th></tr></thead><tbody><tr><td>J-Quants Free</td><td>株価は約12週遅延。私的利用と再配信には条件があります。</td><td>自動配信に使用しません</td></tr><tr><td>Alpha Vantage</td><td>標準枠は1日25回。全履歴と調整済み日足には制限があります。</td><td>全市場の学習に使用しません</td></tr><tr><td>EDINET API</td><td>有価証券報告書などの開示情報を提供します。</td><td>将来の財務分析候補</td></tr><tr><td>利用者のCSV</td><td>利用権限、価格補正、鮮度の確認は利用者に依存します。</td><td>ブラウザ内で解析します</td></tr></tbody></table></div><div class="sources-bottom"><div class="source-links"><span class="section-no">一次資料 / 2026年9月28日確認</span><h2>公式資料</h2><a href="https://jpx-jquants.com/ja/spec/data-spec" target="_blank" rel="noopener">J-Quants データ期間 <span>↗</span></a><a href="https://jpx-jquants.com/ja/termsofservice" target="_blank" rel="noopener">J-Quants 利用規約 <span>↗</span></a><a href="https://jpx-jquants.com/ja/spec/rate-limits" target="_blank" rel="noopener">J-Quants API制限 <span>↗</span></a><a href="https://www.alphavantage.co/documentation/" target="_blank" rel="noopener">Alpha Vantage API仕様 <span>↗</span></a><a href="https://www.alphavantage.co/premium/" target="_blank" rel="noopener">Alpha Vantage 無料枠 <span>↗</span></a><a href="https://disclosure2.edinet-fsa.go.jp/WEEK0020.aspx" target="_blank" rel="noopener">EDINET API案内 <span>↗</span></a></div><div class="method-note"><span class="section-no">計算上の注意</span><h2>リターンについて</h2><p>期間別リターンは、調整済み終値があればその値、なければ通常の終値を用いた単純リターンです。月数は暦月で対応づけ、該当日以降の最初の観測日を使います。配当、税、手数料は含みません。価格補正が不明なCSVの結果は投資判断に使えません。</p></div></div></div></section>
+    </main>
+    <footer class="footer"><span>株式検証室</span><span>データを確かめてから、考える。</span><span>© 2026</span></footer>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

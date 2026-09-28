@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>株式検証室 | 根拠から考える銘柄分析</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">株</span><div><strong>株式検証室</strong><small>Evidence Lab</small></div></div>
+      <nav aria-label="主要メニュー">
+        <a href="#overview" class="nav-item active" data-nav="overview"><span>▦</span> 概要</a>
+        <a href="#stocks" class="nav-item" data-nav="stocks"><span>⌕</span> 銘柄を探す</a>
+        <a href="#validation" class="nav-item" data-nav="validation"><span>◫</span> 検証結果</a>
+        <a href="#sources" class="nav-item" data-nav="sources"><span>▤</span> データと方法</a>
+      </nav>
+      <div class="side-note"><span class="live-dot"></span> 現在の判定<br><strong>買い候補は表示できません</strong><p>直近株価を合法的に配信できる無料データ源が未確保です。</p></div>
+      <div class="side-footer">2026年9月28日確認<br>日本株 / ローカル解析</div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><span>日本株の調査・検証</span><span class="top-right">外部送信なし <span class="dot-sep">·</span> アカウント不要</span></header>
+      <section id="overview" class="page active">
+        <div class="page-heading"><div><span class="eyebrow">RESEARCH WORKSPACE</span><h1>判断の前に、根拠を。</h1><p>利用できるデータ、時点、検証結果を揃えてから銘柄を評価します。</p></div><span class="date-pill" id="todayLabel"></span></div>
+        <div class="notice"><div class="notice-icon">!</div><div><strong>「いま買い」は判定を保留中</strong><p>現在の日本株データを再配信できる無料ソースを確認できていません。アップロードしたデータでは履歴と検証を調べられますが、鮮度と権利が確認できるまで推奨を出しません。</p></div></div>
+        <div class="section-label"><h2>データの状態</h2><span>ファイルはこのブラウザ内で処理します</span></div>
+        <div class="metrics"><div class="metric"><span>読み込んだ銘柄</span><strong id="stockCount">0</strong><small>対象データなし</small></div><div class="metric"><span>有効な株価行</span><strong id="rowCount">0</strong><small>日付・終値を確認</small></div><div class="metric"><span>最終データ日</span><strong id="lastDate">—</strong><small id="freshness">未取得</small></div><div class="metric"><span>時間外検証</span><strong id="validationState">未実施</strong><small>実データによる結果なし</small></div></div>
+        <div class="grid-two"><div class="panel upload-panel"><div class="panel-icon">↥</div><h2>手元のデータで調べる</h2><p>権利を持つ日本株の日足 CSV を読み込み、品質チェックと銘柄別の過去リターンを表示します。ファイルはサーバーに送信しません。</p><label class="button primary" for="csvFile">CSV を選択 <span>→</span></label><input id="csvFile" type="file" accept=".csv,text/csv"><p class="subtle">必須列：date, code, close　任意：name, volume, adjusted_close<br>UTF-8、最大 10 MB・100,000 行</p></div><div class="panel steps-panel"><h2>判断までの道筋</h2><div class="step"><b>01</b><div><strong>データを監査</strong><p>日付、重複、価格異常、欠損と鮮度を確認</p></div></div><div class="step"><b>02</b><div><strong>履歴を調べる</strong><p>1・3・6・12か月の実績とデータ不足を表示</p></div></div><div class="step"><b>03</b><div><strong>別期間で検証</strong><p>ローカルの再現スクリプトで基準とモデルを比較</p></div></div><div class="step"><b>04</b><div><strong>条件を満たせば候補を検討</strong><p>鮮度・利用権限・検証が揃うまで候補は出さない</p></div></div></div></div>
+        <div id="auditMessage" class="message" role="status">CSV を読み込むと監査結果がここに表示されます。</div>
+      </section>
+      <section id="stocks" class="page"><div class="page-heading"><div><span class="eyebrow">STOCK EXPLORER</span><h1>銘柄を探す</h1><p>読み込んだ履歴の範囲で、過去の値動きとデータ品質を確認します。</p></div></div><div class="toolbar"><label class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="コードまたは銘柄名で検索" aria-label="銘柄を検索"></label><span id="resultCount">0 件</span></div><div class="explorer"><div class="list-panel"><div class="list-head"><span>銘柄</span><span>最終データ日</span></div><div id="stockList" class="stock-list empty-list">CSV を読み込んでください。</div></div><div id="detail" class="detail-panel empty-detail"><div class="empty-symbol">◌</div><h2>銘柄を選択</h2><p>履歴、期間別損益、データの弱点を表示します。</p></div></div></section>
+      <section id="validation" class="page"><div class="page-heading"><div><span class="eyebrow">OUT-OF-SAMPLE REVIEW</span><h1>検証結果</h1><p>過去の値動きと、将来を予測する能力は別に評価します。</p></div></div><div class="notice neutral"><div class="notice-icon">i</div><div><strong>実データの時間外検証は未実施です</strong><p>このサイトには検証済みと称する数値を組み込んでいません。手元の CSV でローカルスクリプトを実行すると、時間順に分けた基準モデルの結果を JSON として出力できます。</p></div></div><div class="grid-two"><div class="panel"><h2>採用条件</h2><ul class="check-list"><li>特徴量が予測時点で利用可能</li><li>学習・選定・最終評価の期間を分離</li><li>保有期間と重なるサンプルを除外</li><li>取引コストを差し引き、単純な基準と比較</li><li>市場急落期と銘柄の偏りを確認</li></ul></div><div class="panel"><h2>結果の読み方</h2><p class="body-copy">時系列外の評価がない場合、的中率・期待収益・将来価格帯を表示しません。検証済みの結果を読み込んだときも、対象期間と銘柄数、コスト、除外理由を併記します。</p><label class="button secondary" for="resultFile">検証 JSON を読み込む <span>→</span></label><input id="resultFile" type="file" accept=".json,application/json"></div></div><div id="validationResult" class="validation-result"></div></section>
+      <section id="sources" class="page"><div class="page-heading"><div><span class="eyebrow">DATA & METHODOLOGY</span><h1>データと方法</h1><p>使える条件と使えない理由を、出典に沿って記録します。</p></div></div><div class="source-table-wrap"><table><thead><tr><th>情報源</th><th>無償枠の確認事項</th><th>このサイトでの扱い</th></tr></thead><tbody><tr><td>J-Quants Free</td><td>株価は約12週遅延。私的利用に限定、加工データの第三者配信も不可。</td><td><span class="tag red">自動接続しない</span></td></tr><tr><td>Alpha Vantage</td><td>標準枠は1日25回。日足の全履歴と調整済み日足は有料。</td><td><span class="tag amber">全市場学習に使わない</span></td></tr><tr><td>EDINET API</td><td>有価証券報告書等の財務開示。株価源ではない。</td><td><span class="tag gray">将来拡張</span></td></tr><tr><td>利用者の CSV</td><td>利用権限・調整方法・鮮度を利用者が確認。</td><td><span class="tag green">ブラウザ内で解析</span></td></tr></tbody></table></div><div class="panel source-links"><h2>公式資料 <small>確認日 2026年9月28日</small></h2><a href="https://jpx-jquants.com/ja/spec/data-spec" target="_blank" rel="noopener">J-Quants データ期間 ↗</a><a href="https://jpx-jquants.com/ja/termsofservice" target="_blank" rel="noopener">J-Quants 利用規約 ↗</a><a href="https://jpx-jquants.com/ja/spec/rate-limits" target="_blank" rel="noopener">J-Quants API 制限 ↗</a><a href="https://www.alphavantage.co/documentation/" target="_blank" rel="noopener">Alpha Vantage API 仕様 ↗</a><a href="https://www.alphavantage.co/premium/" target="_blank" rel="noopener">Alpha Vantage 無料枠 ↗</a><a href="https://disclosure2.edinet-fsa.go.jp/WEEK0020.aspx" target="_blank" rel="noopener">EDINET API 案内 ↗</a></div><div class="method-note"><h2>計算上の注意</h2><p>表示する期間別損益は、読み込んだ調整済み終値がある場合はその値、ない場合は通常の終値を用いた単純リターンです。配当・税・手数料は含みません。月数は暦月で対応付け、該当日以降の最初の観測日を採用します。価格補正が不明な CSV の結果は投資判断に使えません。</p></div></section>
+    </main>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
